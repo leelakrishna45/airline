@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body class="backimage">
+	<div align="center">
+	<div align="left">
+	<br>
+	<br>
+	<a routerLink="/enquiry">Home</a>
+	</div>
+	<h1>Ticket Booking</h1>
+	<table border="1" class="backgroundtable">
+			<tr align="center">
+				<td>FlightNumber</td>
+				<td>Airline</td>
+				<td>Departure city</td>
+				<td>Arrival city</td>
+				<td>Departure Time</td>
+				<td>Arrival Time</td>
+				<td>Firstclass seats</td>
+				<td>Fare</td>
+				<td>Businessclass seats</td>
+				<td>Fare</td>
+			</tr>
+			<tr align="center">
+				<td>{{flight.flightno}}</td>
+				<td>{{flight.airline}}</td>
+				<td>{{flight.depCity}}</td>
+				<td>{{flight.arrCity}}</td>
+				<td>{{flight.depTime}}</td>
+				<td>{{flight.arrTime}}</td>
+				<td>{{flight.firstseats}}</td>
+				<td>{{flight.firstseatfare}}</td>
+				<td>{{flight.bussseats}}</td>
+				<td>{{flight.bussseatfare}}</td>
+			</tr>
+			</table>
+		<br>
+		<br>
+	<P>Select a class</P>
+	<select [(ngModel)]='classType' (change)=enableAddPassengers() required="required">
+		<option value="first">First</option>
+		<option value="business">Business</option>
+	</select>
+	<div *ngIf=isClassSelected>
+		<form #frm2="ngForm" (ngSubmit)="addPassenger(frm2)">
+			<table>
+				<tr>
+					<th>Passenger Name</th>
+					<td><input type="text" required pattern="[a-zA-Z]{0,}"  #namecontrol='ngModel' name="txtPsgName" [(ngModel)]=passenger.name>
+					<span  *ngIf="namecontrol.invalid && (namecontrol.touched||namecontrol.dirty)" > 
+						<span *ngIf="namecontrol.errors.required"></span>
+						<span *ngIf="namecontrol.errors.pattern">Name should contain alphabet only</span>
+					</span>
+					</td>
+				</tr>
+				<tr>
+					<th>Passenger age</th>
+					<td><input type="text" required pattern="^[0-9][1-9]{0,}$"  #agecontrol='ngModel'name="txtPsgAge" [(ngModel)]=passenger.age>
+					<span  *ngIf="agecontrol.invalid && (agecontrol.touched||agecontrol.dirty)" > 
+						<span *ngIf="agecontrol.errors.required"></span>
+						<span *ngIf="agecontrol.errors.pattern">Age should contain numbers only</span>
+					</span>
+					</td>
+				</tr>			
+			</table>
+			<br/>
+			<input type="submit" value="Add Pasenger" [disabled]='frm2.invalid'>
+		</form>
+	</div>
+	<div *ngIf=flag>
+		<h2>Passenger details</h2>
+		<table border="1" class="backgroundtable">
+			<tr align="center">
+				<td>Name</td>
+				<td>Age</td>
+				<td colspan="1">action</td>
+			</tr>
+			<tr *ngFor="let passenger of passengerList" align="center">
+				<td>{{passenger.name}}</td>
+				<td>{{passenger.age}}</td>
+				<td><button (click)=deletePassenger(passenger)>Delete</button></td>
+			</tr>
+		</table>
+		<p></p><br/>
+		<button name="bookTicket" (click)=addBookingDetails()>Confirm Booking</button>
+	</div>
+	<router-outlet></router-outlet>
+	</div>
+	</body>
+</html>

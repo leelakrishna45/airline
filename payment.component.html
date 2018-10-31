@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body class="backimage">
+<div align="center">
+<div *ngIf=!isPaymentDone>
+<h1>Ticket Details</h1>
+	<table border="1" class="backgroundtable">
+		<tr>
+			<th>Flightno</th>
+			<th>Travel Date</th>
+			<th>No of Passenger</th>
+			<th>Total fare</th>
+			<th>Class Type</th>
+		</tr>
+		<tr>
+			<td>{{updatedFlight.flightno}}</td>
+			<td>{{updatedFlight.depDate}}</td>
+			<td>{{bookingInformation.noOfPassengers}}</td>
+			<td>{{bookingInformation.totalFare}}</td>
+			<td>{{bookingInformation.classType}}</td>
+		</tr>
+	</table>
+	
+	<form #frm="ngForm" (ngSubmit)=confirmPayment()>
+		<table>
+			<tr>
+				<td>Enter Email:</td>
+				<td><input type="email" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"  #emailcontrol='ngModel' [(ngModel)]='customerEmail' />
+				<span  *ngIf="emailcontrol.invalid && (emailcontrol.touched||emailcontrol.dirty)" > 
+						<span *ngIf="emailcontrol.errors.required">Email Id cannot be empty</span>
+						<span *ngIf="emailcontrol.errors.pattern">Enter valid EmailId</span>
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td>Enter CreditCardNumber:</td>
+				<td><input type="text" required name="creditcard" #cardcontrol='ngModel' pattern="^[0-9]{0,10}$" [(ngModel)]='creditCardNumber'/>
+				<span  *ngIf="cardcontrol.invalid && (cardcontrol.touched||cardcontrol.dirty)" > 
+						<span *ngIf="cardcontrol.errors.required">credit card cannot be empty</span>
+						<span *ngIf="cardcontrol.errors.pattern">Enter valid credit card number</span>
+					</span>
+				</td>
+			</tr>
+			
+			
+		</table>
+		<input type="submit" value="Pay" [disabled]='frm.invalid'>
+		<button value="Cancel" (click)="cancelPayment()">Cancel</button>
+	</form>
+		
+</div>
+
+<div *ngIf=isPaymentDone>
+	<br>
+	<div align="left">
+	<a routerLink="/enquiry">Home</a>
+	</div>
+	<h1>Your booking Id is:{{bookingId[0]}}</h1>
+	<router-outlet></router-outlet>
+</div>
+</div>
+</body>

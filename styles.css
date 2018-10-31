@@ -1,0 +1,44 @@
+a{
+  background-color: red;
+  color: white;
+  padding: 0.8em 1.0em;
+  border-radius:1em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+a:hover {
+  background-color: #555;
+}
+
+a:active {
+  background-color: black;
+}
+
+a:visited {
+  background-color: #ccc;
+}
+body,html
+{
+	height:100%;
+	margin:0;
+
+}
+.backimage
+{	
+	background-image: url("./resources/flight.jpeg");
+background-size: cover;
+	background-position: center;
+	display: block;
+	height: 800px;
+	left: 0;
+	position: fixed;
+	right: 0;
+	z-index: 1;
+	
+}
+
+ .backgroundtable{
+ 	background: rgba(255,255,255,0.8);
+ }
+

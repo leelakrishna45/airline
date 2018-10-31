@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body class="backimage">
+<div align="center" >
+	<h1>Search Flights</h1>
+
+	<form #frm1="ngForm" (ngSubmit)='submit(frm1)'>
+		<table>
+			<tr>
+				<td >Source:</td>
+				<td><input type="text" required pattern="[a-zA-Z]{0,}" name='source'  #srccontrol='ngModel' [(ngModel)]='sourceCity'>
+					<span  *ngIf="srccontrol.invalid && (srccontrol.touched||srccontrol.dirty)" > 
+						<span *ngIf="srccontrol.errors.required">Source is empty</span>
+						<span *ngIf="srccontrol.errors.pattern">Source should contain alphabet only</span>
+					</span><br/>
+				</td>			
+			</tr>
+			<tr>
+				<td>Destination:</td>
+				<td><input type="text" required pattern="[a-zA-Z]{0,}" name='destination' #descontrol="ngModel" [(ngModel)]='destinationCity' >
+					<span  *ngIf="descontrol.invalid && (descontrol.touched||descontrol.dirty)" > 
+						<span *ngIf="descontrol.errors.required">Destination is empty</span>
+						<span *ngIf="descontrol.errors.pattern">Destination should contain alphabet only</span>
+					</span><br/>
+				</td>
+			</tr>
+			<tr>
+				<td>Date of Journey:</td>
+				<td><input type="date" required="required"  onkeydown="return false" min={{startDate}} max={{endDate}} name='departuredate' id="departuredate" [(ngModel)]='date' class="unstyled"></td>
+			</tr>
+			<tr>
+				<td><input type="submit" value="Search"></td>
+			</tr>
+		</table>
+	</form>
+
+	<div *ngIf=flag>
+		
+		<table border="1" class="backgroundtable">
+			<tr align="center">
+				<td>Select</td>
+				<td>FlightNumber</td>
+				<td>Airline</td>
+				<td>Departure city</td>
+				<td>Arrival city</td>
+				<td>Departure Time</td>
+				<td>Arrival Time</td>
+				<td>Firstclass seats</td>
+				<td>Fare</td>
+				<td>Businessclass seats</td>
+				<td>Fare</td>
+			</tr>
+			<tr *ngFor="let flight of flightList" align="center">
+				<td><input type="radio" (click)=sendFlight(flight) name="flightSelect"/></td>
+				<td>{{flight.flightno}}</td>
+				<td>{{flight.airline}}</td>
+				<td>{{flight.depCity}}</td>
+				<td>{{flight.arrCity}}</td>
+				<td>{{flight.depTime}}</td>
+				<td>{{flight.arrTime}}</td>
+				<td>{{flight.firstseats}}</td>
+				<td>{{flight.firstseatfare}}</td>
+				<td>{{flight.bussseats}}</td>
+				<td>{{flight.bussseatfare}}</td>
+			</tr>
+		</table>
+		<span  *ngIf=isFlightSelected> 
+			<br>
+			<br>
+			<a class="a" routerLink="booking">Book</a>
+		</span>
+	</div>
+	
+	<div *ngIf=noFlightFound>
+		<h2>No Flights found</h2>
+	</div>
+	<router-outlet></router-outlet>
+	</div>
+</body>
+</html>
